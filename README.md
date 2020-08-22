@@ -50,6 +50,6 @@ Recommended : Advanced Rest Client or Postman.
 
 #### 8. Device sharing:
 - link : `http://localhost:3000/device/share`
-- Json : `{ "name" : "deviceName", "email" : "abc@xyz.com", "token": "Token that got generated during signup or Login."}`
+- Json : `{ "name" : "deviceName", "email" : "User email with whom you want to share your device", "token": "Token that got generated during signup or Login."}`
 
 **_To Check results in MongoDB use database `dbusers` in it see the collections with name `users` and `devices`_**
