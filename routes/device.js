@@ -317,18 +317,4 @@ const errors = validationResult(req);
  }
     }
 );
-
-
-//method to verify authentication works.
-router.post("/me", auth, async (req, res) => {
-  try {
-    // request.user is getting fetched from Middleware after token authentication
-    const user = await User.find({userID: req.user.id});
-    res.json(user);
-  } catch (e) {
-    res.send({ message: "Error in Fetching user" });
-  }
-});
-
-
 module.exports = router;
