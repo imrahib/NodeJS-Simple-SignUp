@@ -6,6 +6,8 @@ var router = express.Router();
 var Device = require("../model/Device");
 var auth = require("../authentication/auth");
 var randomstring = require("randomstring");
+var User = require("../model/User");
+
 
 //Method for device creation
 router.post(
@@ -168,12 +170,6 @@ router.post(
 router.post(
     "/read",auth,
     async (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array()
-            });
-        }
         try {
         var devices = await Device.find({});
         var returnableDevices = [];
@@ -257,6 +253,70 @@ router.post(
     }
 );
 
+
+router.post(
+    "/share",auth,
+    [
+        check("name", "Please enter a valid device name.").not().isEmpty(),
+        check("email", "Please enter a valid email").isEmail()
+    ],
+    async (req, res) => {
+
+const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array()
+            });
+        }
+
+         const {name, email} = req.body;
+        try {
+
+            let device = await Device.findOne({
+                 deviceName: name
+            });
+
+        if(device)
+        {
+            if(device.users.includes(req.user.id))
+            {
+                let user = await User.findOne({
+                        email: email
+                 });
+                 if(user)
+                 {
+                     device.users.push(user.userID);
+                     await device.save();
+                     return res.status(200).json({
+                           message:"New User Added"
+                     });
+                 }
+                 else
+                 {
+                     return res.status(400).json({
+                           message:"User with email "+email+" does not exists."
+                     });
+                 }
+            }
+            else
+            {
+                return res.status(400).json({
+                      message:"User does not have rights add new userfor this device"
+                });
+            }
+        }
+        else
+        {
+            return res.status(400).json({
+            message:"Device Name does not exists"
+            });
+        }
+        } catch (err) {
+            console.log(err.message);
+            res.status(500).send("Error in Updating");
+ }
+    }
+);
 
 
 //method to verify authentication works.

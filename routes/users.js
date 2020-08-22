@@ -35,7 +35,7 @@ router.post(
       
         try {
             let user = await User.findOne({
-                email
+               		email: email
             });
             if (user) {
                 return res.status(400).json({
