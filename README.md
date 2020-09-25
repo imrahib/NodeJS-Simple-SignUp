@@ -1,4 +1,4 @@
-# SmitchProject
+# Node JS Simple SignUp Project
 Smitch Backend assignment
 
 ## Pre-Requisites
@@ -7,7 +7,7 @@ Smitch Backend assignment
 
 ## How to install?
 - Download the code as a zip file or clone this repository.
-- Go into folder **SmitchProject**
+- Go into folder **NodeJS-Simple-SignUp**
 - run the command `npm start`
 - this will make your server start at port 3000
 
